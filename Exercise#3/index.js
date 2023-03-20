@@ -6,6 +6,7 @@ const ambilData = require('./users');
 const cors = require('cors')
 
 const app = express();
+app.use(cors())
 const port = 3500;
 
 //Middleware for penanganan log
@@ -18,7 +19,7 @@ app.use(morgan("combined"));
 
 //Definisi Routing 
 app.get("/", (req, res) => {
-  res.send("This is the homepage")
+  res.json({data: 'wassup bois'})
 }); 
 
 app.get("/about", (req, res) => {
@@ -46,7 +47,7 @@ app.get("/about", (req, res) => {
 
 
   app.get("/users", async (req, res) => {
-    res.writeHead(200, {"Content" : "application/json"});
+    res.writeHead(200, {"Content-Type" : "application/json"});
     res.end(JSON.stringify(await ambilData()));
   });
 
@@ -79,27 +80,7 @@ app.get("/about", (req, res) => {
   );
 
   //Middleware CORS
-  //enable cors middleware
-  app.use(cors('https://codepen.io')); //mengizinkan origin(api apa saja yang kita izinkan)
-
-  //untuk mengatasi CORS Policy
-  app.use((req, res, next) => {
-    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, PATCH, DELETE, OPTIONS');//methodsnya apa saja yang diizinkan untuk masuk
-    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');//berikan izin untuk header
-    next();
-  })
-
-  // API endpoints
-  app.get('/api/users', (req, res) => {
-  // Handle GET request for /api/users endpoint
-  console.log("testing get");
-  });
-
-  app.post('/api/login', (req, res) => {
-  // Handle POST request for /api/login endpoint
-  console.log("testing post");
-  });
-
+ 
 
   app.listen(port, () => {
     console.log(`Server running at http://localhost:${port}`)})
